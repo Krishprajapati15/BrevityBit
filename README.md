@@ -21,7 +21,7 @@ To install and use BrevityBot manually (without publishing to the Chrome Web Sto
 ### 1. **Clone or Download the Repository**
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/BrevityBot.git
+git clone https://github.com/Krishprajapati15/BrevityBit
 # Or download the ZIP file from the Releases section.
 ```
 
@@ -99,7 +99,7 @@ Feel free to fork the repo and submit pull requests. Contributions to improve th
 
 ## 📬 Contact
 
-For queries or suggestions, contact the maintainer via GitHub Issues or email: your.email@example.com
+For queries or suggestions, contact the maintainer via GitHub Issues or email: prajapatikrish132005@gmail.com
 
 ---
 
