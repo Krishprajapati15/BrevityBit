@@ -3,86 +3,219 @@
   <head>
     <title>AI Summary</title>
     <style>
+      :root {
+        --primary: #1f2937;
+        --accent: #4f46e5;
+        --accent-light: #818cf8;
+        --success: #22c55e;
+        --success-dark: #16a34a;
+        --bg: #f4f6fb;
+        --surface: #fff;
+        --border: #e5e7eb;
+        --text: #1e293b;
+        --text-light: #64748b;
+        --shadow: 0 4px 24px 0 rgba(79, 70, 229, 0.1),
+          0 1.5px 4px 0 rgba(0, 0, 0, 0.03);
+      }
+
+      html,
       body {
-        font-family: Arial, sans-serif;
-        min-width: 500px;
-        min-height: 300px;
-        padding: 15px;
+        background: var(--bg);
+        font-family: "Inter", Arial, sans-serif;
+        color: var(--text);
+        min-width: 480px;
+        min-height: 320px;
+        padding: 0;
+        margin: 0;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0;
+        margin: 0;
+      }
+
+      .container {
+        margin: 0 auto;
+        background: var(--surface);
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+        max-width: 540px;
+        margin-top: 24px;
+        margin-bottom: 24px;
+        padding: 32px 32px 24px 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        border: 1.5px solid var(--border);
       }
 
       h2 {
-        color: #333;
-        margin-bottom: 15px;
+        color: var(--accent);
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 2px;
+        letter-spacing: -1px;
+        text-align: left;
+        background: linear-gradient(
+          90deg,
+          var(--accent) 60%,
+          var(--accent-light) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .subtitle {
+        font-size: 1.06rem;
+        color: var(--text-light);
+        margin-bottom: 12px;
+        font-weight: 400;
+        text-align: left;
       }
 
       .options {
         display: flex;
-        gap: 10px;
-        margin-bottom: 15px;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 6px;
+      }
+
+      /* Custom select styling with icon */
+      .select-wrapper {
+        position: relative;
+        display: inline-block;
+      }
+      .select-wrapper select {
+        appearance: none;
+        background: var(--bg);
+        color: var(--accent);
+        font-weight: 600;
+        font-size: 1rem;
+        border: 1.5px solid var(--accent-light);
+        border-radius: 7px;
+        padding: 7px 36px 7px 38px;
+        outline: none;
+        transition: border 0.2s;
+        cursor: pointer;
+        box-shadow: 0 1.5px 6px rgba(79, 70, 229, 0.04);
+      }
+      .select-wrapper select:focus {
+        border: 1.5px solid var(--accent);
+      }
+      .select-wrapper .select-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 18px;
+        height: 18px;
+        pointer-events: none;
+        opacity: 0.85;
+      }
+      .select-wrapper .dropdown-arrow {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+        width: 18px;
+        height: 12px;
+        opacity: 0.85;
       }
 
       button {
-        padding: 8px 15px;
-        background-color: #4285f4;
-        color: white;
+        padding: 7px 21px;
+        font-weight: 700;
+        background: linear-gradient(
+          90deg,
+          var(--accent-light) 0%,
+          var(--accent) 90%
+        );
+        color: #fff;
         border: none;
-        border-radius: 4px;
+        border-radius: 7px;
         cursor: pointer;
-        font-weight: bold;
+        font-size: 1rem;
+        box-shadow: 0 2px 10px 0 rgba(79, 70, 229, 0.08);
+        transition: background 0.2s, box-shadow 0.2s;
+        outline: none;
       }
-
-      button:hover {
-        background-color: #3367d6;
+      button:active {
+        box-shadow: 0 1px 2px 0 rgba(79, 70, 229, 0.08);
+      }
+      button:hover,
+      button:focus-visible {
+        background: linear-gradient(
+          90deg,
+          var(--accent) 0%,
+          var(--accent-light) 100%
+        );
       }
 
       #copy-btn {
-        background-color: #34a853;
+        background: linear-gradient(
+          90deg,
+          var(--success-dark) 0%,
+          var(--success) 100%
+        );
+        color: #fff;
       }
-
-      #copy-btn:hover {
-        background-color: #2e8b57;
-      }
-
-      #summary-type {
-        padding: 8px;
-        border-radius: 4px;
-        border: 1px solid #ddd;
+      #copy-btn:hover,
+      #copy-btn:focus-visible {
+        background: linear-gradient(
+          90deg,
+          var(--success) 0%,
+          var(--success-dark) 100%
+        );
       }
 
       #result {
-        margin-top: 15px;
-        padding: 15px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        min-height: 150px;
-        max-height: 400px;
+        margin-top: 8px;
+        background: var(--bg);
+        padding: 24px 18px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        min-height: 140px;
+        max-height: 350px;
         overflow-y: auto;
-        white-space: pre-wrap;
-        line-height: 1.5;
+        font-size: 1.08rem;
+        box-shadow: 0 1.5px 6px rgba(31, 41, 55, 0.04);
+        color: var(--text);
+        transition: border 0.2s;
+      }
+      #result:empty {
+        border: 1px dashed var(--accent-light);
       }
 
       #result ul {
-        padding-left: 20px;
+        padding-left: 22px;
+        margin-top: 10px;
+        margin-bottom: 10px;
       }
 
       #result li {
-        margin-bottom: 10px;
+        margin-bottom: 8px;
+        font-size: 1rem;
       }
 
       .loading {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 150px;
+        min-height: 120px;
+        height: 120px;
       }
 
       .loader {
-        border: 4px solid #f3f3f3;
-        border-top: 4px solid #3498db;
+        border: 5px solid #e0e7ff;
+        border-top: 5px solid var(--accent);
         border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        animation: spin 1s linear infinite;
+        width: 36px;
+        height: 36px;
+        animation: spin 0.85s linear infinite;
       }
 
       @keyframes spin {
@@ -93,26 +226,56 @@
           transform: rotate(360deg);
         }
       }
+
+      @media (max-width: 540px) {
+        .container {
+          max-width: 98vw;
+          padding: 16px 4vw 14px 4vw;
+        }
+        #result {
+          padding: 18px 7px;
+        }
+      }
     </style>
   </head>
   <body>
-    <h2>AI Summary</h2>
-
-    <div class="options">
-      <select id="summary-type">
-        <option value="brief">Brief Summary</option>
-        <option value="detailed">Detailed Summary</option>
-        <option value="bullets">Bullet Points</option>
-      </select>
-      <button id="summarize">Summarize This Page</button>
-      <button id="copy-btn">Copy Summary</button>
+    <div class="container">
+      <h2>BrevityBot</h2>
+      <div class="subtitle">
+        Instantly summarize any webpage using AI. Choose your summary style and
+        get a clean, concise overview.
+      </div>
+      <div class="options">
+        <span class="select-wrapper">
+          <!-- Symbol for summary select (e.g., document-text icon) -->
+          <svg class="select-icon" viewBox="0 0 20 20" fill="currentColor">
+            <path
+              d="M5 2a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7.828A2 2 0 0016.414 7L13 3.586A2 2 0 0011.172 3H5zm0 2h6v4a2 2 0 002 2h4v7a1 1 0 01-1 1H5a1 1 0 01-1-1V4zm8 1.414L16.586 7H13V5.414z"
+            ></path>
+          </svg>
+          <select id="summary-type">
+            <option value="brief">Brief Summary</option>
+            <option value="detailed">Detailed Summary</option>
+            <option value="bullets">Bullet Points</option>
+          </select>
+          <!-- Down arrow icon -->
+          <svg
+            class="dropdown-arrow"
+            viewBox="0 0 20 12"
+            fill="none"
+            stroke="#4f46e5"
+            stroke-width="2"
+          >
+            <path d="M2 2l8 8 8-8" />
+          </svg>
+        </span>
+        <button id="summarize">Summarize</button>
+        <button id="copy-btn">Copy</button>
+      </div>
+      <div id="result">
+        Select a summary type and click <b>Summarize</b> to generate a summary.
+      </div>
     </div>
-
-    <div id="result">
-      Select a summary type and click 'Summarize This Page' to generate a
-      summary.
-    </div>
-
     <script src="config.js"></script>
     <script src="popup.js"></script>
   </body>
